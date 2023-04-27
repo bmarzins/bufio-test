@@ -276,7 +276,8 @@ static int exec_instr(struct vm *vm, bool *halted)
 		r = read_u32(vm, &u32_2);
 		if (r)
 			return r;
-		dm_bufio_forget_buffers(vm->bufio, (sector_t) u32, (sector_t) u32_2);
+		while (u32 < u32_2)
+			dm_bufio_forget(vm->bufio, (sector_t) u32++);
 		break;
 
 	case I_LOOP:
@@ -493,8 +494,6 @@ static void status(struct dm_target *ti, status_type_t type,
 	case STATUSTYPE_INFO:
 		// FIXME: emit some stats
 		break;
-	case STATUSTYPE_IMA:
-		*result = '\0';
 	}
 }
 
