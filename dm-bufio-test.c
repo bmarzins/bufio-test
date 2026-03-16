@@ -498,7 +498,8 @@ static void status(struct dm_target *ti, status_type_t type,
 	}
 }
 
-static int prepare_ioctl(struct dm_target *ti, struct block_device **bdev)
+static int prepare_ioctl(struct dm_target *ti, struct block_device **bdev,
+			 unsigned int cmd, unsigned long arg, bool *forward)
 {
 	struct bufio_test_c *t = ti->private;
 	struct dm_dev *dev = t->dev;
